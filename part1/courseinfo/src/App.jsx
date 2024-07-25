@@ -1,64 +1,40 @@
+import { useState } from "react";
+
 const App = () => {
+  const [counter, setCounter] = useState(0);
+  console.log("rendering with counter value", counter);
 
-  const course = 'Half Stack application development'
+  const increaseByoNE = () => {
+    console.log("increasing, value before", counter);
+    setCounter(counter + 1);
+  };
 
-  const parts = [ 
-    {
-      name: 'Fundamentals of React',
-      exercises: 10
-    },
-    {
-      name: 'Using props to pass data',
-      exercises: 7
-    },
-    { 
-      name: 'State of a component',
-      exercises: 14
-    }
-  ]
+  const decreaseByOnE = () => {
+    console.log("decreasing, value before", counter);
+    setCounter(counter - 1);
+  };
+
+  const setToZero = () => {
+    console.log("resetting to zero, value before", counter);
+    setCounter(0);
+  };
 
   return (
     <div>
-      <Header course={course}/>
-      <Content parts = {parts}/>
-      <Total parts = {parts}/>
+      <Display counter={counter} />
+      <Button onClick={increaseByoNE} text="plus" />
+      <Button onClick={setToZero} text="zero" />
+      <Button onClick={decreaseByOnE} text="minus" />
     </div>
-  )
-}
+  );
+};
 
-const Header = (props) => {
-  return (
-    <div>  
-      <h1>{props.course}</h1>
-    </div>
-  )
-}
+const Display = ({ counter }) => {
+  return <div>{counter}</div>;
+};
 
-const Content = (props) => {
-  return (
-    <div>
-      <Part part = {props.parts[0].name} exercise = {props.parts[0].exercises}/>
-      <Part part = {props.parts[1].name} exercise = {props.parts[1].exercises}/>
-      <Part part = {props.parts[2].name} exercise = {props.parts[2].exercises}/>
-    </div>
-  )
-}
+const Button = ({ onClick, text }) => {
+  return <button onClick={onClick}>{text}</button>;
+};
 
-const Part = (props) => {
-  console.log(props)
-  return (
-    <div>
-      <p>{props.part} {props.exercise}</p>
-    </div>
-  )
-}
-
-const Total = (props) => {
-  return (
-    <div>
-      <p>{props.parts[0].exercises + props.parts[1].exercises + props.parts[2].exercises}</p>
-    </div>
-  )
-}
-
-export default App
+export default App;
