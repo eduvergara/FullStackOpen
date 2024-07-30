@@ -9,13 +9,11 @@ const Header = ({ course }) => {
 
 // Content Component
 const Content = ({ content }) => {
-  const courseContent = content;
-
   const sumPartsCourse = content.reduce((sum, part) => sum + part.exercises, 0);
 
   return (
     <div>
-      {courseContent.map((part) => (
+      {content.map((part) => (
         <Part key={part.id} part={part} />
       ))}
       <p>
