@@ -3,18 +3,15 @@ const Header = ({ course }) => {
   return (
     <div>
       <h2>{course.name}</h2>
-      <Content content={course.parts} />
     </div>
   );
 };
 
+// Content Component
 const Content = ({ content }) => {
   const courseContent = content;
 
-  const sumPartsCourse = courseContent.reduce(
-    (sum, part) => sum + part.exercises,
-    0
-  );
+  const sumPartsCourse = content.reduce((sum, part) => sum + part.exercises, 0);
 
   return (
     <div>
@@ -38,14 +35,16 @@ const Part = ({ part }) => {
   );
 };
 
-const Course = ({ courses }) => {
-  return (
-    <div>
-      {courses.map((course) => (
-        <Header key={course.id} course={course} />
-      ))}
-    </div>
-  );
-};
+// Course component
+const Course = ({ courses }) => (
+  <div>
+    {courses.map((course) => (
+      <div key={course.id}>
+        <Header course={course} />
+        <Content content={course.parts} />
+      </div>
+    ))}
+  </div>
+);
 
 export default Course;
