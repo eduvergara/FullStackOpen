@@ -1,42 +1,90 @@
-import { useState } from "react";
-import Person from "./components/Person";
+import { useState, useEffect } from "react";
+import Persons from "./components/Persons";
+import Filter from "./components/Filter";
+import PersonForm from "./components/PersonForm";
+import personsService from "./services/persons";
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: "Arto Hellas", number: "040-123456", id: 1 },
-    { name: "Ada Lovelace", number: "39-44-5323523", id: 2 },
-    { name: "Dan Abramov", number: "12-43-234345", id: 3 },
-    { name: "Mary Poppendieck", number: "39-23-6423122", id: 4 },
-  ]);
+  // runs only once due "[]"
+  useEffect(() => {
+    personsService.getAll().then((initialPersons) => {
+      setPersons(initialPersons);
+    });
+  }, []);
+
+  // useState hooks
+  const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [newSearch, setNewSearch] = useState("");
 
+  // arrow function - event handler for adding a person to the app
   const addName = (event) => {
     event.preventDefault();
+
+    // check if the name is already in the array
+    if (persons.some((person) => person.name === newName)) {
+      const personToUpdate = persons.find((n) => n.name === newName);
+      if (
+        window.confirm(
+          `${personToUpdate.name} is already added to phonebook, replace the old number iwth a new one?`
+        )
+      ) {
+        const updateToPerson = {
+          ...personToUpdate,
+          number: newNumber,
+        };
+
+        personsService
+          .update(personToUpdate.id, updateToPerson)
+          .then((returnedPerson) => {
+            setPersons(
+              persons.map((person) =>
+                person.id !== personToUpdate.id ? person : returnedPerson
+              )
+            );
+            setNewName(""); // Clear the input fields
+            setNewNumber(""); // Clear the input fields
+          });
+      }
+      return;
+    }
 
     // if name imput is empty
     if (newName === "") {
       return setNewName("");
     }
 
-    // check if the name is already in the array
-    if (persons.some((person) => person.name === newName)) {
-      setNewName("");
-      return alert(`${newName} is already added to phonebook`);
+    // if number imput is empty
+    if (newNumber === "") {
+      return setNewNumber("");
     }
 
+    // object with UI information
     const personObject = {
       name: newName,
       number: newNumber,
-      id: persons.length + 1,
+      id: String(persons.length + 1),
     };
 
-    setPersons(persons.concat(personObject));
-    setNewName("");
-    setNewNumber("");
+    // add the person to the database
+    personsService.create(personObject).then((returnedPerson) => {
+      setPersons(persons.concat(returnedPerson));
+      setNewName("");
+      setNewNumber("");
+    });
   };
 
+  const deleteName = (id, name) => {
+    // using template literals
+    if (window.confirm(`Delete ${name}?`)) {
+      personsService.deleted(id).then((deletedPerson) => {
+        setPersons(persons.filter((person) => person.id !== deletedPerson.id));
+      });
+    }
+  };
+
+  // event handlers for useState
   const handleNewName = (event) => {
     setNewName(event.target.value);
   };
@@ -49,40 +97,32 @@ const App = () => {
     setNewSearch(event.target.value);
   };
 
+  // Used to decide which value to assign to personsToShow.
   const personsToShow =
     newSearch === ""
-      ? persons.filter((person) => person.name)
+      ? persons
       : persons.filter((person) =>
           person.name.toLowerCase().includes(newSearch.toLowerCase())
         );
 
   return (
+    // In the spirit of the single responsibility principle
+    // All the UI sections are done in their own modules
     <div>
-      <div>
-        <h2>Phonebook</h2>
-        filter shown with{" "}
-        <input value={newSearch} onChange={handleNameSearch} />
-      </div>
-      <form onSubmit={addName}>
-        <h2>add a new</h2>
-        <div>
-          name: <input value={newName} onChange={handleNewName} />
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={handleNewNumber} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-      <div>
-        <h2>Numbers</h2>
-        <div>
-          {personsToShow.map((person) => (
-            <Person key={person.id} person={person} />
-          ))}
-        </div>
-      </div>
+      <h2>Phonebook</h2>
+      <Filter handleNameSearch={handleNameSearch} />
+      <h3>add a new</h3>
+      <PersonForm
+        addName={addName}
+        newName={newName}
+        newNumber={newNumber}
+        handleNewName={handleNewName}
+        handleNewNumber={handleNewNumber}
+      />
+      <h2>Numbers</h2>
+      {personsToShow.map((person) => (
+        <Persons key={person.id} person={person} deleteName={deleteName} />
+      ))}
     </div>
   );
 };
