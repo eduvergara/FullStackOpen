@@ -33,34 +33,6 @@ This is a React application that allows users to search for countries, view deta
 - **OpenWeatherMap API**: To retrieve current weather information for the capital of the selected country.
 - **REST Countries API**: To retrieve details about countries, such as name, capital, area, and languages.
 
-## Installation
-
-1. Clone the repository:
-
-   ```bash
-   git clone https://github.com/yourusername/country-information-app.git
-   ```
-
-2. Navigate to the project directory:
-
-   ```bash
-   cd country-information-app
-   ```
-
-3. Install the dependencies:
-
-   ```bash
-   npm install
-   ```
-
-4. Start the development server:
-
-   ```bash
-   npm start
-   ```
-
-   The app will be available at `http://localhost:3000`.
-
 ## Usage
 
 1. Enter the name of a country in the search bar to filter the list of countries.
