@@ -4,6 +4,9 @@ import DisplayCountries from "./components/DisplayCountries";
 import CountryInformation from "./components/CountryInformation";
 
 function App() {
+  const api_key = import.meta.env.VITE_SOME_KEY;
+  // variable api_key now has the value set in startup
+
   // useState hooks for storing
   const [countries, setCountries] = useState([]);
   const [countriesMatchingSearch, setCountriesMatchingSearch] = useState("");
@@ -71,7 +74,7 @@ function App() {
       setLoading(true);
       const cityName = countryApiCall.capital;
       const countryCode = countryApiCall.cca2;
-      const apiKey = `406acc6cfd0979736bd2b2ae3a84a5e5`;
+      const apiKey = api_key;
       axios
         .get(
           `https://api.openweathermap.org/data/2.5/weather?q=${cityName},${countryCode}&appid=${apiKey}&units=metric`
