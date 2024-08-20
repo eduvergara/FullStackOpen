@@ -1,13 +1,15 @@
 const express = require("express");
+const cors = require("cors");
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 
 let notes = [
   {
     id: "1",
     content: "HTML is easy",
-    important: true,
+    important: false,
   },
   {
     id: "2",
@@ -17,7 +19,7 @@ let notes = [
   {
     id: "3",
     content: "GET and POST are the most important methods of HTTP protocol",
-    important: true,
+    important: false,
   },
 ];
 app.get("/", (request, response) => {
@@ -73,7 +75,7 @@ app.post("/api/notes", (request, response) => {
   response.json(note);
 });
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
