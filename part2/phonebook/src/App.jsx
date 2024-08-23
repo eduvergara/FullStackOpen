@@ -60,7 +60,7 @@ const App = () => {
             // to show the message for 5 message before hiding it
             setTimeout(() => {
               setConfirmationMessage(null);
-            }, 5000);
+            }, 2500);
 
             setNewName(""); // Clear the input fields
             setNewNumber(""); // Clear the input fields
@@ -70,7 +70,7 @@ const App = () => {
             setErrorMessage(`'${newName}' was already deleted from the server`);
             setTimeout(() => {
               setErrorMessage(null);
-            }, 5000);
+            }, 2500);
 
             // retrieve the persons, but not sure if the best way to do it
             personsService.getAll().then((initialPersons) => {
@@ -108,7 +108,7 @@ const App = () => {
       // to show the message for 5 message before hiding it
       setTimeout(() => {
         setConfirmationMessage(null);
-      }, 5000);
+      }, 2500);
 
       // updates the useState
       setNewName("");
@@ -119,9 +119,17 @@ const App = () => {
   const deleteName = (id, name) => {
     // using template literals
     if (window.confirm(`Delete ${name}?`)) {
-      personsService.deleted(id).then((deletedPerson) => {
-        setPersons(persons.filter((person) => person.id !== deletedPerson.id));
+      personsService.deleted(id).then(() => {
+        setPersons(persons.filter((person) => person.id !== id));
       });
+
+      // update message confirmation of person already deleted from the server
+      setConfirmationMessage(`'${name}' deleted from the server`);
+
+      // to show the message for 5 message before hiding it
+      setTimeout(() => {
+        setConfirmationMessage(null);
+      }, 2500);
     }
   };
 
