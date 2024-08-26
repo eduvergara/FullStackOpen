@@ -8,7 +8,8 @@
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:ui": "rm -rf dist && cd /Users/eduvergara/Developer/Learning/FullStackOpen/part2/coursenotes && npm run build && cp -r dist /Users/eduvergara/Developer/Learning/FullStackOpen/part3/hello",
-    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push"
+    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push",
+    "lint": "eslint ."
   },
   "author": "Eduardo Vergara",
   "license": "MIT",
@@ -19,6 +20,10 @@
     "mongoose": "^8.5.3"
   },
   "devDependencies": {
+    "@eslint/js": "^9.9.1",
+    "@stylistic/eslint-plugin-js": "^2.6.4",
+    "eslint": "^9.9.1",
+    "globals": "^15.9.0",
     "nodemon": "^3.1.4"
   }
 }
