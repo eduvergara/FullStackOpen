@@ -27,9 +27,13 @@ const App = () => {
   const addName = (event) => {
     event.preventDefault();
 
+    // Handling Case Insensitivity
+    const newNameCapitalized = newName.trim().charAt(0).toUpperCase() + newName.slice(1).trim()
+    const numberTrimmed = newNumber.trim()
+
     // check if the name is already in the array
-    if (persons.some((person) => person.name === newName)) {
-      const personToUpdate = persons.find((n) => n.name === newName);
+    if (persons.some((person) => person.name === newNameCapitalized)) {
+      const personToUpdate = persons.find((n) => n.name === newNameCapitalized);
       if (
         // wait the confirmation message to be true to continue updating the phone name
         // of a person already on the DB
@@ -40,7 +44,7 @@ const App = () => {
         // update the number property of the person record on the DB
         const updateToPerson = {
           ...personToUpdate,
-          number: newNumber,
+          number: numberTrimmed,
         };
 
         // call the Persons.js to makes updates on the DB
@@ -99,19 +103,19 @@ const App = () => {
     }
 
     // if name imput is empty
-    if (newName === "") {
+    if (newName.trim() === "") {
       return setNewName("");
     }
 
     // if number imput is empty
-    if (newNumber === "") {
+    if (newNumber.trim() === "") {
       return setNewNumber("");
     }
 
     // object with UI information
     const personObject = {
-      name: newName,
-      number: newNumber,
+      name: newNameCapitalized,
+      number: numberTrimmed,
     };
 
     // add the person to the database

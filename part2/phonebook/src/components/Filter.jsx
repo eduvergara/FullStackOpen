@@ -9,4 +9,3 @@ const Filter = ({ handleNameSearch }) => {
 };
 
 export default Filter;
-
