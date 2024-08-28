@@ -28,7 +28,8 @@ const App = () => {
     event.preventDefault();
 
     // Handling Case Insensitivity
-    const newNameCapitalized = newName.trim().charAt(0).toUpperCase() + newName.slice(1).trim()
+    const newNameLowerCase = newName.trim().toLowerCase();
+    const newNameCapitalized = newNameLowerCase.charAt(0).toUpperCase() + newNameLowerCase.slice(1);
     const numberTrimmed = newNumber.trim()
 
     // check if the name is already in the array
