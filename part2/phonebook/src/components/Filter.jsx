@@ -1,7 +1,7 @@
 // Filter component
 const Filter = ({ handleNameSearch }) => {
   return (
-    <div>
+    <div className="filter-form">
       filter shown with
       <input onChange={handleNameSearch} />
     </div>
@@ -9,3 +9,4 @@ const Filter = ({ handleNameSearch }) => {
 };
 
 export default Filter;
+

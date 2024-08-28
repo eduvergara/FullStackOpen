@@ -5,6 +5,7 @@ import PersonForm from "./components/PersonForm";
 import personsService from "./services/persons";
 import Notification from "./components/Notification";
 import ErrorNotification from "./components/ErrorNotification";
+import "/src/App.css";
 
 const App = () => {
   // runs only once due "[]"
@@ -60,19 +61,34 @@ const App = () => {
             // to show the message for 5 message before hiding it
             setTimeout(() => {
               setConfirmationMessage(null);
-            }, 2500);
+            }, 4000);
 
             setNewName(""); // Clear the input fields
             setNewNumber(""); // Clear the input fields
           })
-          .catch(() => {
+          .catch((e) => {
             // catch the error if updating an already deleted person from the db
-            setErrorMessage(`'${newName}' was already deleted from the server`);
+            
+            const validationErrors = e.response.data.validationErrorsDetails
+            const validationErrorsToSet = []
+    
+            // added
+            validationErrors.forEach(element => {
+    
+              if (element === `person not found`){
+                validationErrorsToSet.push(`'${newName}' was already deleted from the Phonebook`)
+              } else if (element === "number"){
+                validationErrorsToSet.push(`number formatting error`)
+              }
+              setErrorMessage(validationErrorsToSet)
+
+            })
+
             setTimeout(() => {
               setErrorMessage(null);
-            }, 2500);
+            }, 4000);
 
-            // retrieve the persons, but not sure if the best way to do it
+            // retrieve the persons after the error (to update the list)
             personsService.getAll().then((initialPersons) => {
               setPersons(initialPersons);
             });
@@ -99,37 +115,88 @@ const App = () => {
     };
 
     // add the person to the database
-    personsService.create(personObject).then((returnedPerson) => {
-      setPersons(persons.concat(returnedPerson));
+    personsService.create(personObject)
+      .then((returnedPerson) => {
 
-      // newName message confirmation
-      setConfirmationMessage(`'${newName}' was added to the server`);
+        setPersons(persons.concat(returnedPerson));
 
-      // to show the message for 5 message before hiding it
-      setTimeout(() => {
-        setConfirmationMessage(null);
-      }, 2500);
+        // newName message confirmation
+        setConfirmationMessage(`'${newName}' added to the Phonebook`);
 
-      // updates the useState
-      setNewName("");
-      setNewNumber("");
-    });
+        // to show the message for 5 message before hiding it
+        setTimeout(() => {
+          setConfirmationMessage(null);
+        }, 4000);
+
+        // updates the useState
+        setNewName("");
+        setNewNumber("");
+      })
+      .catch((e) => {
+      // catch errors if adding a new person name of phone number have formating error
+        const validationErrors = e.response.data.validationErrorsDetails
+        const validationErrorsToSet = []
+
+        validationErrors.forEach(element => {
+
+          if(element === "name"){
+            validationErrorsToSet.push(`name formatting error`)
+          } else if (element === "number"){
+            validationErrorsToSet.push(`number formatting error`)
+          } else if (element === "duplicate phone number"){
+            validationErrorsToSet.push(`phone number already on phonebook`)
+          }
+          setErrorMessage(validationErrorsToSet)
+
+        });
+
+        setTimeout(() => {
+          setErrorMessage(null);
+        }, 4000);
+
+      })
   };
 
   const deleteName = (id, name) => {
     // using template literals
     if (window.confirm(`Delete ${name}?`)) {
-      personsService.deleted(id).then(() => {
+      personsService.deleted(id)
+      .then(() => {
         setPersons(persons.filter((person) => person.id !== id));
+        
+        // update message confirmation of person already deleted from the server
+        setConfirmationMessage(`'${name}' deleted from the Phonebook`);
+
+        // to show the message for 5 message before hiding it
+        setTimeout(() => {
+          setConfirmationMessage(null);
+        }, 4000);
+
+      })
+      .catch((e) => {
+      // catch error if deleting a person already deleted from the database
+        const validationErrors = e.response.data.validationErrorsDetails
+        const validationErrorsToSet = []
+      
+        validationErrors.forEach(element => {
+          if(element === 'person already deleted'){
+            validationErrorsToSet.push(`'${name}' was already deleted from the Phonebook`)
+          } 
+          setErrorMessage(validationErrorsToSet)
+
+          setTimeout(() => {
+            setErrorMessage(null);
+          }, 4000);
+
+          // retrieve the persons after the error (to update the list)
+          personsService.getAll().then((initialPersons) => {
+            setPersons(initialPersons);
+          });
+
+        });
+
       });
 
-      // update message confirmation of person already deleted from the server
-      setConfirmationMessage(`'${name}' deleted from the server`);
-
-      // to show the message for 5 message before hiding it
-      setTimeout(() => {
-        setConfirmationMessage(null);
-      }, 2500);
     }
   };
 
@@ -157,12 +224,12 @@ const App = () => {
   return (
     // In the spirit of the single responsibility principle
     // All the UI sections are done in their own modules
-    <div>
-      <h2>Phonebook</h2>
+    <div className="container">
+      <h1>Phonebook</h1>
       <Notification message={confirmationMessage} />
       <ErrorNotification message={errorMessage} />
       <Filter handleNameSearch={handleNameSearch} />
-      <h3>add a new</h3>
+      <h2>Add a new person</h2>
       <PersonForm
         addName={addName}
         newName={newName}
@@ -170,10 +237,13 @@ const App = () => {
         handleNewName={handleNewName}
         handleNewNumber={handleNewNumber}
       />
-      <h2>Numbers</h2>
-      {personsToShow.map((person) => (
-        <Persons key={person.id} person={person} deleteName={deleteName} />
-      ))}
+      <h2>Phone List</h2>
+      <div className="phone-list">
+        {personsToShow.map((person) => (
+          <Persons key={person.id} person={person} deleteName={deleteName} />
+        ))}
+      </div>
+      
     </div>
   );
 };

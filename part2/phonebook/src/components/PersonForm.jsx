@@ -3,16 +3,19 @@ const PersonForm = (props) => {
   // When the 'add' button is clicked,
   // the event is handled by addName event handler in App Module
   return (
-    <form onSubmit={props.addName}>
-      <div>
+    <form onSubmit={props.addName} className="add-form">
+      <div className="add-data-input">
         name: <input value={props.newName} onChange={props.handleNewName} />
       </div>
-      <div>
+      <div className="add-data-input">
         number:
-        <input value={props.newNumber} onChange={props.handleNewNumber} />
+        <input value={props.newNumber} onChange={props.handleNewNumber}/>
       </div>
-      <div>
-        <button type="submit">add</button>
+      <div className="add-number-reference">
+        for example - 04X-XXXXXXX
+      </div>
+      <div className="add-button">
+        <button type="submit" className="btn">add</button>
       </div>
     </form>
   );
