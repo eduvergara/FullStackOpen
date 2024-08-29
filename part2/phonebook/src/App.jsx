@@ -19,7 +19,7 @@ const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
-  const [isValidPhone, setIsValidPhone] = useState(false);
+  const [isValidPhone, setIsValidPhone] = useState();
   const [newSearch, setNewSearch] = useState("");
   const [confirmationMessage, setConfirmationMessage] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -32,6 +32,7 @@ const App = () => {
     const newNameLowerCase = newName.trim().toLowerCase();
     const newNameCapitalized = newNameLowerCase.charAt(0).toUpperCase() + newNameLowerCase.slice(1);
     const numberTrimmed = newNumber.trim()
+     
 
     // check if the name is already in the array
     if (persons.some((person) => person.name === newNameCapitalized)) {
@@ -214,15 +215,15 @@ const App = () => {
 
   // Regex to validate phone number
   const validatePhoneNumber = (phone) => {
-    const regex = /^\d{10}$/;
-    return regex.test(phone);
+    return /^\d{10}$/.test(phone)
   };
+
 
   const handleNewNumber = (event) => {
     const newPhone = event.target.value;
     setNewNumber(newPhone);
-    const numberTrimmed = newPhone.trim()
-    setIsValidPhone(validatePhoneNumber(numberTrimmed));
+    const numberTrim = newPhone.trim()
+    setIsValidPhone(validatePhoneNumber(numberTrim));
   };
 
   const handleNameSearch = (event) => {
