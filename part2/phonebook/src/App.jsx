@@ -19,6 +19,7 @@ const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
+  const [isValidPhone, setIsValidPhone] = useState(false);
   const [newSearch, setNewSearch] = useState("");
   const [confirmationMessage, setConfirmationMessage] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -210,8 +211,18 @@ const App = () => {
     setNewName(event.target.value);
   };
 
+
+  // Regex to validate phone number
+  const validatePhoneNumber = (phone) => {
+    const regex = /^\d{10}$/;
+    return regex.test(phone);
+  };
+
   const handleNewNumber = (event) => {
-    setNewNumber(event.target.value);
+    const newPhone = event.target.value;
+    setNewNumber(newPhone);
+    const numberTrimmed = newPhone.trim()
+    setIsValidPhone(validatePhoneNumber(numberTrimmed));
   };
 
   const handleNameSearch = (event) => {
@@ -239,6 +250,7 @@ const App = () => {
         addName={addName}
         newName={newName}
         newNumber={newNumber}
+        isValidPhone={isValidPhone}
         handleNewName={handleNewName}
         handleNewNumber={handleNewNumber}
       />

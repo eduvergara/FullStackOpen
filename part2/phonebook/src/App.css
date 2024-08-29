@@ -75,10 +75,10 @@ body {
 
 .add-number-reference {
     display: flex;
-    justify-content: right; /* Align label to the left and input to the right */
+    justify-content: space-around	; /* Align label to the left and input to the right */
     align-items: center; /* Align label and input vertically */
     width: 100%; /* Ensure the form-group takes up the full width */
-    font-size: 1rem;
+    font-size: 1.4rem;
 }
 
 .phone-list{
