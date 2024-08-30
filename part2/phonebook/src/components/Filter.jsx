@@ -1,8 +1,11 @@
 // Filter component
-const Filter = ({ handleNameSearch }) => {
+const Filter = ({ handleNameSearch}) => {
   return (
     <div className="filter-form">
-      filter shown with
+      <div>
+        <p>filter by </p>
+        <p>name or phone </p>  
+      </div>
       <input onChange={handleNameSearch} />
     </div>
   );

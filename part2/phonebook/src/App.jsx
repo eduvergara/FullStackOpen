@@ -18,8 +18,9 @@ const App = () => {
   // useState hooks
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
+  const [isValidName, setIsValidName] = useState(false);
   const [newNumber, setNewNumber] = useState("");
-  const [isValidPhone, setIsValidPhone] = useState();
+  const [isValidPhone, setIsValidPhone] = useState(false);
   const [newSearch, setNewSearch] = useState("");
   const [confirmationMessage, setConfirmationMessage] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -29,7 +30,7 @@ const App = () => {
     event.preventDefault();
 
     // Handling Case Insensitivity
-    const newNameLowerCase = newName.trim().toLowerCase();
+    const newNameLowerCase = newName.trim().toLowerCase().replace(/\s+/g, ' ');
     const newNameCapitalized = newNameLowerCase.charAt(0).toUpperCase() + newNameLowerCase.slice(1);
     const numberTrimmed = newNumber.trim()
      
@@ -72,6 +73,8 @@ const App = () => {
 
             setNewName(""); // Clear the input fields
             setNewNumber(""); // Clear the input fields
+            setIsValidPhone(false);
+            setIsValidName(false);
           })
           .catch((e) => {
             // catch the error if updating an already deleted person from the db
@@ -138,6 +141,8 @@ const App = () => {
         // updates the useState
         setNewName("");
         setNewNumber("");
+        setIsValidPhone(false);
+        setIsValidName(false);
       })
       .catch((e) => {
       // catch errors if adding a new person name of phone number have formating error
@@ -207,17 +212,23 @@ const App = () => {
     }
   };
 
+ // Regex to validate name
+ const validateName = (name) => {
+  return /^[A-Za-z\s]{1,70}$/.test(name);
+ };
+
   // event handlers for useState
   const handleNewName = (event) => {
-    setNewName(event.target.value);
+    const newName = event.target.value;
+    setNewName(newName);
+    const nameTrim = newName.trim()
+    setIsValidName(validateName(nameTrim));
   };
-
 
   // Regex to validate phone number
   const validatePhoneNumber = (phone) => {
     return /^\d{10}$/.test(phone)
   };
-
 
   const handleNewNumber = (event) => {
     const newPhone = event.target.value;
@@ -235,8 +246,9 @@ const App = () => {
     newSearch === ""
       ? persons
       : persons.filter((person) =>
-          person.name.toLowerCase().includes(newSearch.toLowerCase())
-        );
+        person.name.toLowerCase().includes(newSearch.toLowerCase()) ||
+        person.number.includes(newSearch)
+    );
 
   return (
     // In the spirit of the single responsibility principle
@@ -252,6 +264,7 @@ const App = () => {
         newName={newName}
         newNumber={newNumber}
         isValidPhone={isValidPhone}
+        isValidName={isValidName}
         handleNewName={handleNewName}
         handleNewNumber={handleNewNumber}
       />

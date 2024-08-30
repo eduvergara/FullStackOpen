@@ -5,7 +5,7 @@ const PersonForm = (props) => {
   return (
     <form onSubmit={props.addName} className="add-form">
       <div className="add-data-input">
-        name: <input value={props.newName} onChange={props.handleNewName} />
+        name: <input value={props.newName} style={{ borderColor: props.isValidName ? "green" : "red" }}onChange={props.handleNewName} />
       </div>
       <div className="add-data-input">
         number:
