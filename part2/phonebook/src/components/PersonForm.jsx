@@ -8,7 +8,7 @@ const PersonForm = (props) => {
         name: <input value={props.newName} style={{ borderColor: props.isValidName ? "green" : "red" }}onChange={props.handleNewName} />
       </div>
       <div className="add-data-input">
-        number:
+        phone:
         <input value={props.newNumber} style={{ borderColor: props.isValidPhone ? "green" : "red" }} onChange={props.handleNewNumber} />
       </div>
       <div className="add-number-reference">
