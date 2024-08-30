@@ -100,7 +100,14 @@ body {
     padding: 20px; /* Space inside the form */
     margin: 15px auto; /* Center the form horizontally */
     border-radius: 5px; /* Optional: Rounded corners */
+    
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Add shadow */
+}
+
+
+.long-name{
+  overflow: hidden; /* Hide text that overflows the container */
+  text-overflow: ellipsis; /* Display ellipsis (...) when text overflows */
 }
 
 /* *************** */

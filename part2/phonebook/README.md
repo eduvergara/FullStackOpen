@@ -74,13 +74,16 @@ The frontend interacts with the backend API using the following endpoints:
 
 ## Folder Structure
 
-src/            : Contains all the source code for the application.
-    components/ : Reusable React components.
-    pages/      : React components for different pages or views.
-    services/   : API service functions using Axios.
-    App.jsx     : Main application component.
-    index.jsx   : Entry point for the React application.
-public/         : Public assets and HTML files.
+```
+.
+├── src                     # Contains all the source code for the application.
+│   ├── components          # Reusable React components.
+│   ├── pages               # React components for different pages or views.
+│   ├── services            # API service functions using Axios.
+│   ├── App.jsx             # Main application component.
+│   └── index.jsx           # Entry point for the React application.
+└── public                  # Public assets and HTML files.
+```
 
 ## Usage
 

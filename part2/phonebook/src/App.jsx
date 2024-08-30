@@ -32,9 +32,8 @@ const App = () => {
     // Handling Case Insensitivity
     const newNameLowerCase = newName.trim().toLowerCase().replace(/\s+/g, ' ');
     const newNameCapitalized = newNameLowerCase.charAt(0).toUpperCase() + newNameLowerCase.slice(1);
-    const numberTrimmed = newNumber.trim()
+    const numberTrimmed = newNumber.trim().replace(/\s+/g, '');
      
-
     // check if the name is already in the array
     if (persons.some((person) => person.name === newNameCapitalized)) {
       const personToUpdate = persons.find((n) => n.name === newNameCapitalized);
@@ -63,7 +62,7 @@ const App = () => {
 
             // update phone message confirmation of person already on the server
             setConfirmationMessage(
-              `'${newName}' phone number was updated on the server`
+              `'${newNameCapitalized}' phone number was updated on the server`
             );
 
             // to show the message for 5 message before hiding it
@@ -86,7 +85,7 @@ const App = () => {
             validationErrors.forEach(element => {
     
               if (element === `person not found`){
-                validationErrorsToSet.push(`'${newName}' was already deleted from the Phonebook`)
+                validationErrorsToSet.push(`'${newNameCapitalized}' was already deleted from the Phonebook`)
               } else if (element === "number"){
                 validationErrorsToSet.push(`number formatting error`)
               }
@@ -131,7 +130,7 @@ const App = () => {
         setPersons(persons.concat(returnedPerson));
 
         // newName message confirmation
-        setConfirmationMessage(`'${newName}' added to the Phonebook`);
+        setConfirmationMessage(`'${newNameCapitalized}' added to the Phonebook`);
 
         // to show the message for 5 message before hiding it
         setTimeout(() => {
@@ -233,7 +232,7 @@ const App = () => {
   const handleNewNumber = (event) => {
     const newPhone = event.target.value;
     setNewNumber(newPhone);
-    const numberTrim = newPhone.trim()
+    const numberTrim = newPhone.trim().replace(/\s+/g, '');
     setIsValidPhone(validatePhoneNumber(numberTrim));
   };
 
