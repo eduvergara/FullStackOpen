@@ -12,7 +12,7 @@ const PersonForm = (props) => {
         <input value={props.newNumber} style={{ borderColor: props.isValidPhone ? "green" : "red" }} onChange={props.handleNewNumber} />
       </div>
       <div className="add-number-reference">
-        10 digits number
+        10 digits phone number
       </div>
       <div className="add-button">
         <button type="submit" className="btn">add</button>

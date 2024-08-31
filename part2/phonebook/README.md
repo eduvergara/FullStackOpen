@@ -34,7 +34,7 @@ This project is a React-based frontend application for managing a phonebook. It 
 1. Clone the repository:
 
 ```
-git clone https://github.com/your-username/phonebook.git
+git clone https://github.com/eduvergara/FullStackOpen/tree/main/part2/phonebook
 ```
   
 2. Navigate to the project directory:
@@ -60,7 +60,6 @@ npm install
 The frontend interacts with the backend API using the following endpoints:
 
 - GET /api/persons      :Fetch all contacts.
-- GET /api/persons/     :Fetch a contact by ID.
 - POST /api/persons     :Add a new contact.
 - PUT /api/persons/     :Update a contact.
 - DELETE /api/persons/  :Delete a contact.
@@ -78,7 +77,6 @@ The frontend interacts with the backend API using the following endpoints:
 .
 ├── src                     # Contains all the source code for the application.
 │   ├── components          # Reusable React components.
-│   ├── pages               # React components for different pages or views.
 │   ├── services            # API service functions using Axios.
 │   ├── App.jsx             # Main application component.
 │   └── index.jsx           # Entry point for the React application.
@@ -90,7 +88,7 @@ The frontend interacts with the backend API using the following endpoints:
 1. Start the Backend Server: Navigate to the backend project directory and run:
 
 ```
-cd path/to/your/backend
+cd path/to/the/backend (/FSO-part3-phonebook-backend)
 npm run dev
 ```
 
@@ -99,7 +97,7 @@ This command will start the backend server, which connects to the MongoDB databa
 2. Start the Frontend Development Server: In a separate terminal, navigate to the frontend project directory and run:
 
 ```
-cd path/to/your/frontend
+cd path/to/your/frontend  (phonebook)
 npm run dev
 ```
 
